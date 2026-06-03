@@ -28,6 +28,27 @@ a{
   color:inherit;
 }
 
+.badge-link{
+  position:relative;
+}
+
+.unpaid-badge{
+  display:none;
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
+  min-width:26px;
+  height:26px;
+  border-radius:999px;
+  background:#d93025;
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+  align-items:center;
+  justify-content:center;
+}
+
 .page{
   max-width:980px;
   margin:0 auto;
@@ -433,13 +454,16 @@ footer{
 
       </a>
 
-      <a class="btn sub"
-         href="#"
-         target="_blank">
+      <a class="btn sub badge-link"
+   href="https://docs.google.com/spreadsheets/d/1UQ-ZTX7m5vncD3vAes77sLsB8kFPOnH759jt5EcZZuY/edit?gid=2024602370#gid=2024602370"
+   target="_blank">
 
-         원장 조회
+  원장 조회
 
-      </a>
+  <span id="dailyUnpaidBadge"
+        class="unpaid-badge">0</span>
+
+</a>
 
     </article>
 
@@ -538,6 +562,37 @@ if("serviceWorker" in navigator){
 
 }
 
+</script>
+
+<script>
+const DAILY_WORKER_API_URL =
+  "https://script.google.com/macros/s/AKfycbzjJ4xzZl96Wi4AcYrfKrEzIl-gY5iEZCUEiZ_th51mD2Kq97G13z883QIMjFf99sQE3w/exec";
+
+async function loadDailyUnpaidBadge(){
+  const badge = document.getElementById("dailyUnpaidBadge");
+  if(!badge) return;
+
+  try{
+    const res = await fetch(
+      DAILY_WORKER_API_URL + "?action=getDailyUnpaidCount&t=" + Date.now(),
+      { cache:"no-store" }
+    );
+
+    const data = await res.json();
+    const count = Number(data.count || 0);
+
+    if(count > 0){
+      badge.textContent = count > 99 ? "99+" : String(count);
+      badge.style.display = "flex";
+    }else{
+      badge.style.display = "none";
+    }
+  }catch(e){
+    console.log("일용직 미지급 배지 조회 실패", e);
+  }
+}
+
+window.addEventListener("load", loadDailyUnpaidBadge);
 </script>
 
 </body>
