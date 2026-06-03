@@ -1,11 +1,11 @@
 {
-  "name": "길채정 압구정점 업무포털",
+  "name": "길채정 압구정점 인트라넷",
   "short_name": "길채정",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f6f1ea",
-  "theme_color": "#2b1d12",
-  "orientation": "portrait",
+  "theme_color": "#7c2d12",
+
   "icons": [
     {
       "src": "images/icon-192.png",
