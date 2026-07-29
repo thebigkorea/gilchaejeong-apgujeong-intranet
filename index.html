@@ -230,6 +230,13 @@ a{
   text-align:center;
 }
 
+.portal-button{
+  border:0;
+  font-family:inherit;
+  font-size:16px;
+  cursor:pointer;
+}
+
 .btn.sub{
   margin-top:10px;
   background:#f1e7d8;
@@ -381,21 +388,17 @@ footer{
         위생점검 및 컴플레인을 기록합니다.
       </p>
 
-      <a class="btn"
-         href="store-manager.html"
-         target="_blank">
+      <button
+  type="button"
+  class="btn portal-button"
+  onclick="openProtectedPage(
+    'dailyReport',
+    'store-manager.html'
+  )">
 
-         일일보고 입력
+  일일보고 입력
 
-      </a>
-
-      <a class="btn sub"
-        href="https://docs.google.com/spreadsheets/d/1fnU-59jS0bFf09igAcM4gaPTXChs6_mRCNY4qjPye6c/edit?gid=1384492881#gid=1384492881"
-         target="_blank">
-
-         관리자 조회
-
-      </a>
+</button>
 
     </article>
 
@@ -451,13 +454,17 @@ footer{
 
       </a>
 
-      <a class="btn sub"
-   href="https://thebigkorea.github.io/gilchaejeong-apgujeong/admin.html"
-   target="_blank">
+      <button
+  type="button"
+  class="btn sub portal-button"
+  onclick="openProtectedPage(
+    'attendanceAdmin',
+    'https://thebigkorea.github.io/gilchaejeong-apgujeong/admin.html'
+  )">
 
-   관리자 조회
+  관리자 조회
 
-</a>
+</button>
 </article>
 
     <article class="card">
@@ -606,6 +613,36 @@ async function loadDailyUnpaidBadge() {
 }
 
 window.addEventListener("load", loadDailyUnpaidBadge);
+</script>
+
+<script>
+const PORTAL_PASSWORDS = {
+  dailyReport: "1234",
+  attendanceAdmin: "1234"
+};
+
+function openProtectedPage(type, url) {
+  const enteredPassword =
+    window.prompt("비밀번호를 입력하세요.");
+
+  if (enteredPassword === null) {
+    return;
+  }
+
+  const correctPassword =
+    PORTAL_PASSWORDS[type];
+
+  if (enteredPassword !== correctPassword) {
+    alert("비밀번호가 올바르지 않습니다.");
+    return;
+  }
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
 </script>
 
 </body>
